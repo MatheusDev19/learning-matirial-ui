@@ -13,7 +13,13 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^6.4.7",
+    "@mui/x-tree-view": "^7.26.0",
+    "@mui/x-tree-view-pro": "^7.26.0",
+    "@types/react-beautiful-dnd": "^13.1.8",
     "react": "^19.0.0",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
