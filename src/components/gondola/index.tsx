@@ -6,6 +6,7 @@ type Product = {
   id: number;
   name: string;
   color: string;
+  width: number; // Adiciona a propriedade width
 };
 
 // Define a matriz da gôndola (null significa espaço vazio)
@@ -19,21 +20,20 @@ export function Gondola() {
 
   // Lista de produtos disponíveis
   const products: Product[] = [
-    { id: 1, name: "Produto A", color: "red" },
-    { id: 2, name: "Produto B", color: "blue" },
-    { id: 3, name: "Produto C", color: "green" },
+    { id: 1, name: "Produto A", color: "red", width: 80 },
+    { id: 2, name: "Produto B", color: "blue", width: 100 },
+    { id: 3, name: "Produto C", color: "green", width: 120 },
   ];
 
   // Função para adicionar um produto a um espaço da gôndola
   const handlePlaceProduct = (row: number, col: number) => {
-    if (!selectedProduct) return; // verifica se o produto esta selecionado
+    if (!selectedProduct) return;   // verifica se o produto esta selecionado
 
-    const newGrid = [...grid]; // cria uma copia da matriz
-    if (!newGrid[row][col]) {
-      // verifica se a celula esta vazia
+    const newGrid = [...grid];             // cria uma copia da matriz
+    if (!newGrid[row][col]) {              // verifica se a celula esta vazia
       newGrid[row][col] = selectedProduct; // coloca o produto selecionado na celula
-      setGrid(newGrid); // atualiza a grid com o produto selecionado
-      setSelectedProduct(null); // Desseleciona após adicionar
+      setGrid(newGrid);                    // atualiza a grid com o produto selecionado
+      setSelectedProduct(null);            // Desseleciona após adicionar
     }
   };
 
@@ -73,8 +73,6 @@ export function Gondola() {
           </Button>
         ))}
       </Box>
-
-      {/* Seção da Gôndola */}
       <Box>
         <Typography
           variant="h5"
@@ -96,11 +94,11 @@ export function Gondola() {
         >
           {grid.map((row, rowIndex) =>
             row.map((cell, colIndex) => (
-              <Grid item key={`${rowIndex}-${colIndex}`} xs={4}>
+              <Grid item key={`${rowIndex}-${colIndex}`} xs={6}>
                 <Box
                   sx={{
-                    width: 80,
-                    height: 80,
+                    width: cell ? cell.width : 80, // Usa a largura do produto ou um valor padrão
+                    height: cell ? cell.width :80,
                     border: "2px solid #ccc",
                     display: "flex",
                     alignItems: "center",

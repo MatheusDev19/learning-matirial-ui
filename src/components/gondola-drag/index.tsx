@@ -7,11 +7,11 @@ const initialProducts = [
   "🥩", "🧀", "🥚", "🥛"
 ];
 
-export const GondolaDrag = () => {
+export const GondolaWithDrag = () => {
   const [products, setProducts] = useState(initialProducts);
 
   const handleDragStart = (e, index) => {
-    e.dataTransfer.setData("text/plain", index);
+    e.dataTransfer.setData("text/plain", index); // armazena o índice do item arrastado no objeto dataTransfer.
   };
 
   const handleDrop = (e, index) => {
@@ -45,12 +45,12 @@ export const GondolaDrag = () => {
               border: "1px solid black",
               cursor: "grab",
               fontSize: 30,
-              bgcolor: "lightgray"
+              bgcolor: "lightgray",
             }}
             draggable
-            onDragStart={(e) => handleDragStart(e, index)}
-            onDrop={(e) => handleDrop(e, index)}
-            onDragOver={handleDragOver}
+            // onDragStart={(e) => handleDragStart(e, index)}
+            // onDrop={(e) => handleDrop(e, index)}
+            // onDragOver={handleDragOver}
           >
             {product}
           </Box>
