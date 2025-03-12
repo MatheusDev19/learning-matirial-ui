@@ -6,13 +6,18 @@ type Product = {
   id: number;
   name: string;
   color: string;
-  width: number; // Adiciona a propriedade width
+  width: number;
+  height: number;
 };
 
+const GONDOLA_WIDTH = 320;
+const GRID_ROWS = 4;
+const GRID_COLS = 3;
+
 // Define a matriz da gôndola (null significa espaço vazio)
-const initialGrid = Array(3)
+const initialGrid = Array(GRID_ROWS)
   .fill(null)
-  .map(() => Array(4).fill(null));
+  .map(() => Array(GRID_COLS).fill(null));
 
 export function Gondola() {
   const [grid, setGrid] = useState<(Product | null)[][]>(initialGrid);
@@ -20,48 +25,55 @@ export function Gondola() {
 
   // Lista de produtos disponíveis
   const products: Product[] = [
-    { id: 1, name: "Produto A", color: "red", width: 80 },
-    { id: 2, name: "Produto B", color: "blue", width: 100 },
-    { id: 3, name: "Produto C", color: "green", width: 120 },
+    { id: 1, name: "Produto A", color: "red", width: 80, height: 60 },
+    { id: 2, name: "Produto B", color: "blue", width: 100, height: 80 },
+    { id: 3, name: "Produto C", color: "green", width: 120, height: 100 },
   ];
+
+  // Função para verificar se a célula pode acomodar o produto sem ultrapassar a largura da gôndola
+  const canPlaceProduct = (row: number, col: number, product: Product) => {
+    const totalWidth = grid[row].reduce(
+      (sum, cell) => sum + (cell ? cell.width : 0),
+      product.width
+    );
+    return totalWidth <= GONDOLA_WIDTH;
+  };
 
   // Função para adicionar um produto a um espaço da gôndola
   const handlePlaceProduct = (row: number, col: number) => {
-    if (!selectedProduct) return;   // verifica se o produto esta selecionado
+    if (!selectedProduct || grid[row][col]) return;
 
-    const newGrid = [...grid];             // cria uma copia da matriz
-    if (!newGrid[row][col]) {              // verifica se a celula esta vazia
-      newGrid[row][col] = selectedProduct; // coloca o produto selecionado na celula
-      setGrid(newGrid);                    // atualiza a grid com o produto selecionado
-      setSelectedProduct(null);            // Desseleciona após adicionar
+    if (!canPlaceProduct(row, col, selectedProduct)) {
+      alert("A largura total não pode ultrapassar a largura da gôndola!");
+      setSelectedProduct(null);
+      return;
     }
+
+    const newGrid = [...grid];
+    newGrid[row][col] = selectedProduct;
+    setGrid(newGrid);
+    setSelectedProduct(null);
   };
 
   // Função para limpar um produto de um espaço da gôndola
   const handleClearProduct = (row: number, col: number) => {
-    const newGrid = [...grid]; // cria uma copia da matriz
-    newGrid[row][col] = null; // remove o produto da celula
-    setGrid(newGrid); // atualiza a grid
+    const newGrid = [...grid];
+    newGrid[row][col] = null;
+    setGrid(newGrid);
   };
 
   return (
     <Box display="flex" gap={4} p={3}>
       {/* Seção de Produtos Disponíveis */}
-      <Box
-        sx={{
-          height: "auto",
-          border: "1px solid black",
-          bgcolor: "wheat",
-        }}
-      >
+      <Box sx={{ height: "auto", border: "1px solid black", bgcolor: "wheat" }}>
         <Typography
           variant="h5"
           display="flex"
           alignItems="center"
           justifyContent="center"
-          mb={5}
+          mb={2}
         >
-          Produtos disponiveis
+          Produtos disponíveis
         </Typography>
         {products.map((produto) => (
           <Button
@@ -73,32 +85,37 @@ export function Gondola() {
           </Button>
         ))}
       </Box>
-      <Box>
-        <Typography
-          variant="h5"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          mb={5}
-        >
-          Gondola
-        </Typography>
+
+      {/* Seção da Gôndola */}
+      <Box
+        sx={{
+          height: "auto",
+          width: "auto",
+          border: "1px solid black",
+          bgcolor: "wheat",
+        }}
+      >
         <Grid
-          sx={{
-            width: "auto",
-            height: "auto",
-            bgcolor: "sandybrown",
-          }}
           container
-          spacing={3}
+          spacing={1}
+          sx={{
+            width: GONDOLA_WIDTH,
+            bgcolor: "sandybrown",
+            position: "relative",
+          }}
         >
           {grid.map((row, rowIndex) =>
             row.map((cell, colIndex) => (
-              <Grid item key={`${rowIndex}-${colIndex}`} xs={6}>
+              <Grid
+                item
+                key={`${rowIndex}-${colIndex}`}
+                xs={4}
+                // sx={{ border: "1px solid black" }}
+              >
                 <Box
                   sx={{
-                    width: cell ? cell.width : 80, // Usa a largura do produto ou um valor padrão
-                    height: cell ? cell.width :80,
+                    width: cell ? cell.width : 80,
+                    height: cell ? cell.height : 80,
                     border: "2px solid #ccc",
                     display: "flex",
                     alignItems: "center",
@@ -106,6 +123,7 @@ export function Gondola() {
                     background: cell ? cell.color : "transparent",
                     cursor: "pointer",
                     position: "relative",
+                    mb: 1,
                   }}
                   onClick={() => handlePlaceProduct(rowIndex, colIndex)}
                 >
@@ -113,7 +131,7 @@ export function Gondola() {
                   {cell && (
                     <Button
                       onClick={(e) => {
-                        e.stopPropagation(); // Impede que o clique no botão dispare o clique na célula
+                        e.stopPropagation();
                         handleClearProduct(rowIndex, colIndex);
                       }}
                       sx={{
