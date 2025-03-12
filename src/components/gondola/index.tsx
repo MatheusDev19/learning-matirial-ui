@@ -64,6 +64,7 @@ export function Gondola() {
 
   return (
     <Box display="flex" gap={4} p={3}>
+      
       {/* Seção de Produtos Disponíveis */}
       <Box sx={{ height: "auto", border: "1px solid black", bgcolor: "wheat" }}>
         <Typography
@@ -155,3 +156,5 @@ export function Gondola() {
     </Box>
   );
 }
+
+
