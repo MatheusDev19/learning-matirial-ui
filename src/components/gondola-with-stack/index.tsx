@@ -25,10 +25,10 @@ export const GondolaWithStack = () => {
     setSelectedProduct(product);
   };
 
-  const handleStackClick = (index: number) => {
+  const handleStackClick = (stackId: number) => {
     if (selectedProduct) {
       const newStackProduct = [...stackProduct];
-      newStackProduct[index] = selectedProduct;
+      newStackProduct[stackId] = selectedProduct;
       setStackProduct(newStackProduct);
       setSelectedProduct(null);
     }
@@ -47,7 +47,7 @@ export const GondolaWithStack = () => {
           height: 600,
         }}
       >
-        {products.map((product: Product) => (
+        {products.map((product: Product, shelfIndex) => (
           // Pratelheira de gondola
           <Stack
             key={product.id}
@@ -56,38 +56,23 @@ export const GondolaWithStack = () => {
             divider={<Divider orientation="vertical" flexItem />}
             sx={{ border: "1px solid blue", padding: "10px", mb: 4 }}
           >
-            <Stack
-              sx={{ border: "1px solid red", padding: "10px", width: 100 }}
-            >
-              {product.name}
-            </Stack>
-
-            <Stack
-              sx={{ border: "1px solid red", padding: "10px", width: 100 }}
-            >
-              {product.name}
-            </Stack>
-
-            <Stack
-              sx={{ border: "1px solid red", padding: "10px", width: 100 }}
-            >
-              {product.name}
-            </Stack>
+            {/* Produto na prateleira */}
+            {[0, 1, 2, 3].map((productIndex) => (
+              <Stack
+                key={productIndex}
+                sx={{
+                  border: "1px solid black",
+                  padding: "10px",
+                  width: 100,
+                  height: 15,
+                }}
+                onClick={() => handleStackClick(shelfIndex * 4 + productIndex)} // calcula um índice único para cada stack, combinando o índice da prateleira (shelfIndex) e o índice do produto (productIndex).
+              >
+                {stackProduct[shelfIndex * 4 + productIndex]?.name || ""}
+              </Stack>
+            ))}
           </Stack>
         ))}
-
-        {/* Empilhamento de produtos */}
-        <Stack direction={"row"} spacing={2}>
-          {[0, 1, 2, 3].map((index) => (
-            <Stack
-              key={index}
-              sx={{ border: "1px solid green", padding: "10px", width: 100 }}
-              onClick={() => handleStackClick(index)}
-            >
-              {stackProduct[index]?.name || "Empty"}
-            </Stack>
-          ))}
-        </Stack>
       </Stack>
     </>
   );
