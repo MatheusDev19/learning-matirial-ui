@@ -1,6 +1,7 @@
-import { Divider, Stack } from "@mui/material";
+import { Divider, Stack, Button } from "@mui/material";
 import { ListProducts } from "../list-products";
 import { useState } from "react";
+import { GondolaControl } from "../gondola-control";
 
 export interface Product {
   id: number;
@@ -20,6 +21,10 @@ export const products: Product[] = [
 export const GondolaWithStack = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null); // armazenar o produto selecionado
   const [stackProduct, setStackProduct] = useState<Product[]>([]); // armazenar os produtos empilhados
+  const [shelves, setShelves] = useState<number[]>([0]); // armazenar as prateleiras
+  const [shelfWidth, setShelfWidth] = useState<number>(100);
+  const [shelfHeight, setShelfHeight] = useState<number>(15);
+  const [gap, setGap] = useState<number>(2);
 
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
@@ -34,25 +39,39 @@ export const GondolaWithStack = () => {
     }
   };
 
+  const addShelf = () => {
+    setShelves([...shelves, shelves.length]);
+  };
+
   return (
     <>
       <ListProducts products={products} onProductClick={handleProductClick} />
 
-      {/* Modulo de gondola */}
+      <Button onClick={addShelf}>Adicionar Prateleira</Button>
+
+      <GondolaControl
+        shelfWidth={shelfWidth}
+        setShelfWidth={setShelfWidth}
+        shelfHeight={shelfHeight}
+        setShelfHeight={setShelfHeight}
+        gap={gap}
+        setGap={setGap}
+      />
+
       <Stack
         sx={{
           border: "1px solid red",
           padding: "10px",
-          width: 600,
+          width: shelfWidth * 4 + gap * 3,
           height: 600,
         }}
       >
-        {products.map((product: Product, shelfIndex) => (
+        {shelves.map((_, shelfIndex) => (
           // Pratelheira de gondola
           <Stack
-            key={product.id}
+            key={shelfIndex}
             direction="row"
-            spacing={2}
+            spacing={gap}
             divider={<Divider orientation="vertical" flexItem />}
             sx={{ border: "1px solid blue", padding: "10px", mb: 4 }}
           >
@@ -63,8 +82,8 @@ export const GondolaWithStack = () => {
                 sx={{
                   border: "1px solid black",
                   padding: "10px",
-                  width: 100,
-                  height: 15,
+                  width: shelfWidth,
+                  height: shelfHeight,
                 }}
                 onClick={() => handleStackClick(shelfIndex * 4 + productIndex)} // calcula um índice único para cada stack, combinando o índice da prateleira (shelfIndex) e o índice do produto (productIndex).
               >
@@ -77,19 +96,3 @@ export const GondolaWithStack = () => {
     </>
   );
 };
-
-
-
-
-// Atualize a primeira gondola com parametros: 
-	// Array de prateleira => deve ter uma funcao que adione uma patelheira a gondola
-	
-  // Dimensao de prateleiras: largura e altura devem ser ajustadas de forma independente 
-  // A altura das prateleiras deve ser ajustadas de forma independente
-	// Largura de gondola deve ser igual a largura das prateleiras e devem ser ajustadas juntas (se uma almentar a outra tambem aumenta e vise e versa)
-   
-  // Array de produtos => deve ter uma funcao que adicione um produto a prateleira
-	 
-  // Gap entre esses produtos devem ser manipulado de forma independente
-
-  
