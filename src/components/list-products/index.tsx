@@ -1,7 +1,14 @@
 import { Box, Button, Typography } from "@mui/material";
-import { products } from "../gondola-with-stack";
+import { Product, products } from "../gondola-with-stack";
 
-export const AddProducts = () => {
+interface ListProductsProps { 
+ products: Product[];
+ onProductClick: (product: Product) => void;
+}
+
+export const ListProducts = ({ products, onProductClick }: ListProductsProps) => {
+
+
   return (
     <Box
       sx={{
@@ -26,6 +33,7 @@ export const AddProducts = () => {
         <Button
           key={product.id}
           sx={{cursor: 'pointer', bgcolor: product.color, color: "black", m: 1 }}
+          onClick={() => onProductClick(product)}
         >
           {product.name}
         </Button>

@@ -1,5 +1,6 @@
-import { Divider, Link, Stack } from "@mui/material";
-import { AddProducts } from "../add-products";
+import { Divider, Stack } from "@mui/material";
+import { ListProducts } from "../list-products";
+import { useState } from "react";
 
 export interface Product {
   id: number;
@@ -17,9 +18,25 @@ export const products: Product[] = [
 ];
 
 export const GondolaWithStack = () => {
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null); // armazenar o produto selecionado
+  const [stackProduct, setStackProduct] = useState<Product[]>([]); // armazenar os produtos empilhados
+
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+  };
+
+  const handleStackClick = (index: number) => {
+    if (selectedProduct) {
+      const newStackProduct = [...stackProduct];
+      newStackProduct[index] = selectedProduct;
+      setStackProduct(newStackProduct);
+      setSelectedProduct(null);
+    }
+  };
+
   return (
     <>
-      <AddProducts />
+      <ListProducts products={products} onProductClick={handleProductClick} />
 
       {/* Modulo de gondola */}
       <Stack
@@ -33,12 +50,12 @@ export const GondolaWithStack = () => {
         {products.map((product: Product) => (
           // Pratelheira de gondola
           <Stack
+            key={product.id}
             direction="row"
             spacing={2}
             divider={<Divider orientation="vertical" flexItem />}
             sx={{ border: "1px solid blue", padding: "10px", mb: 4 }}
           >
-            <Link href="mantine.dev" />
             <Stack
               sx={{ border: "1px solid red", padding: "10px", width: 100 }}
             >
@@ -58,6 +75,19 @@ export const GondolaWithStack = () => {
             </Stack>
           </Stack>
         ))}
+
+        {/* Empilhamento de produtos */}
+        <Stack direction={"row"} spacing={2}>
+          {[0, 1, 2, 3].map((index) => (
+            <Stack
+              key={index}
+              sx={{ border: "1px solid green", padding: "10px", width: 100 }}
+              onClick={() => handleStackClick(index)}
+            >
+              {stackProduct[index]?.name || "Empty"}
+            </Stack>
+          ))}
+        </Stack>
       </Stack>
     </>
   );
