@@ -77,3 +77,19 @@ export const GondolaWithStack = () => {
     </>
   );
 };
+
+
+
+
+// Atualize a primeira gondola com parametros: 
+	// Array de prateleira => deve ter uma funcao que adione uma patelheira a gondola
+	
+  // Dimensao de prateleiras: largura e altura devem ser ajustadas de forma independente 
+  // A altura das prateleiras deve ser ajustadas de forma independente
+	// Largura de gondola deve ser igual a largura das prateleiras e devem ser ajustadas juntas (se uma almentar a outra tambem aumenta e vise e versa)
+   
+  // Array de produtos => deve ter uma funcao que adicione um produto a prateleira
+	 
+  // Gap entre esses produtos devem ser manipulado de forma independente
+
+  
