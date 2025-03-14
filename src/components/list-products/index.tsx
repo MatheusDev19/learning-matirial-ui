@@ -1,14 +1,15 @@
 import { Box, Button, Typography } from "@mui/material";
-import { Product, products } from "../gondola-with-stack";
+import { Product } from "../gondola";
 
-interface ListProductsProps { 
- products: Product[];
- onProductClick: (product: Product) => void;
+export interface ListProductsProps {
+  products: Product[];
+  onProductClick: (product: Product) => void;
 }
 
-export const ListProducts = ({ products, onProductClick }: ListProductsProps) => {
-
-
+export const ListProducts = ({
+  products,
+  onProductClick,
+}: ListProductsProps) => {
   return (
     <Box
       sx={{
@@ -32,7 +33,12 @@ export const ListProducts = ({ products, onProductClick }: ListProductsProps) =>
       {products.map((product) => (
         <Button
           key={product.id}
-          sx={{cursor: 'pointer', bgcolor: product.color, color: "black", m: 1 }}
+          sx={{
+            cursor: "pointer",
+            bgcolor: product.color,
+            color: "black",
+            m: 1,
+          }}
           onClick={() => onProductClick(product)}
         >
           {product.name}

@@ -1,50 +1,60 @@
-import { Box, TextField } from "@mui/material";
-import { useState } from "react";
+import { Box, Paper, TextField } from "@mui/material";
+import { useState, ReactNode } from "react";
 
-interface GondolaControlProps {
-  setShelfWidth: (width: number) => void;
-  setShelfHeight: (height: number) => void;
-  setGap: (gap: number) => void;
-  gap: number;
-  shelfWidth: number;
-  shelfHeight: number;
+export interface GondolaControlProps {
+  children: (props: {
+    shelfWidth: number;
+    shelfHeight: number;
+    gap: number;
+    gondolaHeight: number;
+  }) => ReactNode;
 }
 
-export const GondolaControl = ({
-  setShelfWidth,
-  shelfWidth,
-  setShelfHeight,
-  shelfHeight,
-  setGap,
-  gap,
-}: GondolaControlProps) => {
+export const GondolaControl = ({ children }: GondolaControlProps) => {
+  const [shelfWidth, setShelfWidth] = useState<number>(100);
+  const [shelfHeight, setShelfHeight] = useState<number>(40);
+  const [gap, setGap] = useState<number>(.5);
+  const [gondolaHeight, setGondolaHeight] = useState<number>(500);
+
   return (
-    <Box
-      sx={{
-        padding: 2,
-        border: 1,
-        borderColor: "primary.main",
-        borderRadius: 1,
-      }}
-    >
-      <TextField
-        label="Largura da Prateleira"
-        type="number"
-        value={shelfWidth}
-        onChange={(e) => setShelfWidth(Number(e.target.value))}
-      />
-      <TextField
-        label="Altura da Prateleira"
-        type="number"
-        value={shelfHeight}
-        onChange={(e) => setShelfHeight(Number(e.target.value))}
-      />
-      <TextField
-        label="Espaçamento"
-        type="number"
-        value={gap}
-        onChange={(e) => setGap(Number(e.target.value))}
-      />
+    <Box>
+      <Paper
+        sx={{
+          padding: 2,
+          border: 1,
+          borderRadius: 1,
+          width: 800,
+          gap: 2,
+          display: "flex",
+        }}
+      >
+        <TextField
+          label="Largura da Gondola"
+          type="number"
+          value={shelfWidth}
+          onChange={(e) => setShelfWidth(Number(e.target.value))}
+        />
+        <TextField
+          label="Altura da Prateleira"
+          type="number"
+          value={shelfHeight}
+          onChange={(e) => setShelfHeight(Number(e.target.value))}
+        />
+        <TextField
+          label="Espaçamento"
+          type="number"
+          value={gap}
+          onChange={(e) => setGap(Number(e.target.value))}
+        />
+        <TextField
+          label="Altura da Gôndola"
+          type="number"
+          value={gondolaHeight}
+          onChange={(e) => setGondolaHeight(Number(e.target.value))}
+        />
+      </Paper>
+
+      {children({ shelfWidth, shelfHeight, gap, gondolaHeight })}
     </Box>
   );
 };
