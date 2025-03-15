@@ -13,7 +13,7 @@ export const ListProducts = ({
   return (
     <Box
       sx={{
-        width: 500,
+        width: 800,
         height: 100,
         border: "1px solid black",
         bgcolor: "wheat",

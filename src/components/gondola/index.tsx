@@ -12,16 +12,41 @@ export interface Product {
 }
 
 export const products: Product[] = [
-  { id: 1, name: "Produto A", color: "red", width: 80, height: 60 },
-  { id: 2, name: "Produto B", color: "blue", width: 100, height: 80 },
-  { id: 3, name: "Produto C", color: "green", width: 120, height: 100 },
-  { id: 4, name: "Produto D", color: "yellow", width: 140, height: 120 },
+  {
+    id: 1,
+    name: "Produto A",
+    color: "red",
+    width: 80,
+    height: 60,
+  },
+  {
+    id: 2,
+    name: "Produto B",
+    color: "blue",
+    width: 100,
+    height: 80,
+  },
+  {
+    id: 3,
+    name: "Produto C",
+    color: "green",
+    width: 120,
+    height: 100,
+  },
+  {
+    id: 4,
+    name: "Produto D",
+    color: "yellow",
+    width: 140,
+    height: 120,
+  },
 ];
 
 export const Gondola = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null); // armazenar o produto selecionado
   const [stackProduct, setStackProduct] = useState<Product[]>([]); // armazenar os produtos empilhados
   const [shelves, setShelves] = useState<number[]>([0]); // armazenar as prateleiras
+  const [swapProductIndex, setSwapProductIndex] = useState<number | null>(null); // armazenar o índice do produto a ser trocado
 
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
@@ -33,6 +58,18 @@ export const Gondola = () => {
       newStackProduct[stackId] = selectedProduct;
       setStackProduct(newStackProduct);
       setSelectedProduct(null);
+      return;
+    }
+
+    if (swapProductIndex === null) {
+      setSwapProductIndex(stackId);
+    } else {
+      const newStackProduct = [...stackProduct];
+      const temp = newStackProduct[stackId];
+      newStackProduct[stackId] = newStackProduct[swapProductIndex];
+      newStackProduct[swapProductIndex] = temp;
+      setStackProduct(newStackProduct);
+      setSwapProductIndex(null);
     }
   };
 
