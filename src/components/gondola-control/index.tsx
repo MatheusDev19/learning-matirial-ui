@@ -13,8 +13,8 @@ export interface GondolaControlProps {
 export const GondolaControl = ({ children }: GondolaControlProps) => {
   const [shelfWidth, setShelfWidth] = useState<number>(100);
   const [shelfHeight, setShelfHeight] = useState<number>(40);
-  const [gap, setGap] = useState<number>(.5);
-  const [gondolaHeight, setGondolaHeight] = useState<number>(500);
+  const [gap, setGap] = useState<number>(0);
+  const [gondolaHeight, setGondolaHeight] = useState<number>(520);
 
   return (
     <Box>
@@ -26,6 +26,7 @@ export const GondolaControl = ({ children }: GondolaControlProps) => {
           width: 800,
           gap: 2,
           display: "flex",
+          mb: 2,
         }}
       >
         <TextField

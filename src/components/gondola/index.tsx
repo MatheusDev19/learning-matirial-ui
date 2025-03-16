@@ -1,4 +1,4 @@
-import { Divider, Stack, Button, Box } from "@mui/material";
+import { Divider, Stack, Button, Box, Paper } from "@mui/material";
 import { ListProducts } from "../list-products";
 import { useState } from "react";
 import { GondolaControl } from "../gondola-control";
@@ -81,7 +81,7 @@ export const Gondola = () => {
     <Box
       sx={{
         display: "flex",
-        gap: 2,
+        gap: 1,
       }}
     >
       <ListProducts products={products} onProductClick={handleProductClick} />
@@ -96,56 +96,64 @@ export const Gondola = () => {
 
       <GondolaControl>
         {({ shelfWidth, shelfHeight, gap, gondolaHeight }) => (
-          <Stack
+          <Paper
             sx={{
-              border: "1px solid red",
+              bgcolor: "#e0e0e0",
+              display: "flex",
+              flexDirection: "column",
               width: shelfWidth * 4 + gap * 3,
               height: gondolaHeight,
+              pt: 1,
             }}
           >
             {shelves.map((_, shelfIndex) => (
               // Pratelheira de gondola
-              <Stack
-                key={shelfIndex}
-                direction="row"
-                spacing={gap}
-                divider={<Divider orientation="vertical" flexItem />}
+
+              <Box
                 sx={{
-                  border: "1px solid blue",
-                  p: 1,
-                  height: shelfHeight,
+                  backgroundColor: "#f0f0f0",
+                  flexDirection: "column",
+                  mb: 0.1,
+                  mx: 1,
                 }}
               >
-                {/* Produto na prateleira */}
-                {[0, 1, 2, 3].map((productIndex) => (
-                  <Stack
-                    key={productIndex}
-                    sx={{
-                      border: "1px solid black",
-                      width: shelfWidth,
-                      height: shelfHeight,
-                    }}
-                    onClick={() =>
-                      handleStackClick(shelfIndex * 4 + productIndex)
-                    }
-                  >
-                    {stackProduct[shelfIndex * 4 + productIndex] ? (
-                      <Box
-                        sx={{
-                          width: "100%",
-                          height: "100%",
-                          backgroundColor:
-                            stackProduct[shelfIndex * 4 + productIndex].color,
-                        }}
-                      />
-                    ) : (
-                      ""
-                    )}
-                  </Stack>
-                ))}
-              </Stack>
+                <Stack
+                  key={shelfIndex}
+                  direction="row"
+                  spacing={gap}
+                  divider={<Divider orientation="vertical" flexItem />}
+                  sx={{
+                    p: 1,
+                    height: shelfHeight,
+                  }}
+                >
+                  {[0, 1, 2, 3].map((productIndex) => (
+                    <Paper
+                      key={productIndex}
+                      sx={{
+                        width: shelfWidth,
+                        height: shelfHeight,
+                      }}
+                      onClick={() =>
+                        handleStackClick(shelfIndex * 4 + productIndex)
+                      }
+                    >
+                      {stackProduct[shelfIndex * 4 + productIndex] && (
+                        <Box
+                          sx={{
+                            width: "100%",
+                            height: "100%",
+                            backgroundColor:
+                              stackProduct[shelfIndex * 4 + productIndex].color,
+                          }}
+                        />
+                      )}
+                    </Paper>
+                  ))}
+                </Stack>
+              </Box>
             ))}
-          </Stack>
+          </Paper>
         )}
       </GondolaControl>
     </Box>
