@@ -43,16 +43,21 @@ export const products: Product[] = [
 ];
 
 export const Gondola = () => {
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null); // armazenar o produto selecionado
-  const [stackProduct, setStackProduct] = useState<Product[]>([]); // armazenar os produtos empilhados
-  const [shelves, setShelves] = useState<number[]>([0]); // armazenar as prateleiras
-  const [swapProductIndex, setSwapProductIndex] = useState<number | null>(null); // armazenar o índice do produto a ser trocado
+  const [selectedShelfIndex, setSelectedShelfIndex] = useState<number | null>(null);
+  const [swapProductIndex, setSwapProductIndex] = useState<number | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [shelfHeights, setShelfHeights] = useState<number[]>([40]);
+  const [stackProduct, setStackProduct] = useState<Product[]>([]);
+  const [shelves, setShelves] = useState<number[]>([0]);
 
   const handleProductClick = (product: Product) => {
     setSelectedProduct(product);
   };
 
   const handleStackClick = (stackId: number) => {
+    const shelfIndex = Math.floor(stackId / 4);
+    setSelectedShelfIndex(shelfIndex);
+
     if (selectedProduct) {
       const newStackProduct = [...stackProduct];
       newStackProduct[stackId] = selectedProduct;
@@ -73,8 +78,15 @@ export const Gondola = () => {
     }
   };
 
+  const handleShelfHeightChange = (index: number, height: number) => {
+    const newShelfHeights = [...shelfHeights];
+    newShelfHeights[index] = height;
+    setShelfHeights(newShelfHeights);
+  };
+
   const addShelf = () => {
     setShelves([...shelves, shelves.length]);
+    setShelfHeights([...shelfHeights, 40]);
   };
 
   return (
@@ -94,10 +106,14 @@ export const Gondola = () => {
         Add shelves
       </Button>
 
-      <GondolaControl>
-        {({ shelfWidth, shelfHeight, gap }) => {
+      <GondolaControl
+        onShelfHeightChange={handleShelfHeightChange}
+        selectedShelfIndex={selectedShelfIndex}
+      >
+        {({ shelfWidth, gap }) => {
           const totalHeight =
-            shelves.length * shelfHeight + (shelves.length - 1) * gap;
+            shelfHeights.reduce((acc, height) => acc + height, 0) +
+            (shelves.length - 1) * gap;
           return (
             <Paper
               sx={{
@@ -110,7 +126,6 @@ export const Gondola = () => {
             >
               {shelves.map((_, shelfIndex) => (
                 // Pratelheira de gondola
-
                 <Box
                   key={shelfIndex}
                   sx={{
@@ -124,7 +139,7 @@ export const Gondola = () => {
                     spacing={gap}
                     divider={<Divider orientation="vertical" flexItem />}
                     sx={{
-                      height: shelfHeight,
+                      height: shelfHeights[shelfIndex],
                     }}
                   >
                     {[0, 1, 2, 3].map((productIndex) => (
@@ -132,7 +147,7 @@ export const Gondola = () => {
                         key={productIndex}
                         sx={{
                           width: shelfWidth,
-                          height: shelfHeight,
+                          height: shelfHeights[shelfIndex],
                         }}
                         onClick={() =>
                           handleStackClick(shelfIndex * 4 + productIndex)
@@ -143,9 +158,7 @@ export const Gondola = () => {
                             sx={{
                               width: "100%",
                               height: "100%",
-                              backgroundColor:
-                                stackProduct[shelfIndex * 4 + productIndex]
-                                  .color,
+                              backgroundColor: stackProduct[shelfIndex * 4 + productIndex].color,
                             }}
                           />
                         )}
