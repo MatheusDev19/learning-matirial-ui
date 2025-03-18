@@ -6,7 +6,6 @@ export interface GondolaControlProps {
     shelfWidth: number;
     shelfHeight: number;
     gap: number;
-    gondolaHeight: number;
   }) => ReactNode;
 }
 
@@ -14,7 +13,6 @@ export const GondolaControl = ({ children }: GondolaControlProps) => {
   const [shelfWidth, setShelfWidth] = useState<number>(100);
   const [shelfHeight, setShelfHeight] = useState<number>(40);
   const [gap, setGap] = useState<number>(0);
-  const [gondolaHeight, setGondolaHeight] = useState<number>(520);
 
   return (
     <Box>
@@ -47,15 +45,10 @@ export const GondolaControl = ({ children }: GondolaControlProps) => {
           value={gap}
           onChange={(e) => setGap(Number(e.target.value))}
         />
-        <TextField
-          label="Altura da Gôndola"
-          type="number"
-          value={gondolaHeight}
-          onChange={(e) => setGondolaHeight(Number(e.target.value))}
-        />
+        
       </Paper>
 
-      {children({ shelfWidth, shelfHeight, gap, gondolaHeight })}
+      {children({ shelfWidth, shelfHeight, gap })}
     </Box>
   );
 };
