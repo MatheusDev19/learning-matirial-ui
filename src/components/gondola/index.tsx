@@ -37,7 +37,7 @@ export const products: Product[] = [
     id: 4,
     name: "Produto D",
     color: "yellow",
-    width: 140,
+    width: 80,
     height: 120,
   },
 ];
@@ -46,7 +46,7 @@ export const Gondola = () => {
   const [selectedShelfIndex, setSelectedShelfIndex] = useState<number | null>(null);
   const [swapProductIndex, setSwapProductIndex] = useState<number | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [shelfHeights, setShelfHeights] = useState<number[]>([40]);
+  const [shelfHeights, setShelfHeights] = useState<number[]>([]);
   const [stackProduct, setStackProduct] = useState<Product[]>([]);
   const [shelves, setShelves] = useState<number[]>([0]);
 
@@ -131,6 +131,7 @@ export const Gondola = () => {
                   sx={{
                     backgroundColor: "#f0f0f0",
                     flexDirection: "column",
+                    borderBottom: '1px solid black',
                     mx: 1,
                   }}
                 >
