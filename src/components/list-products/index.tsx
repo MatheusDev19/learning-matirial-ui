@@ -1,10 +1,48 @@
 import { Box, Button, Typography } from "@mui/material";
-import { Product } from "../gondola";
 
 export interface ListProductsProps {
   products: Product[];
   onProductClick: (product: Product) => void;
 }
+
+export interface Product {
+  id: number;
+  name: string;
+  color: string;
+  width: number;
+  height: number;
+}
+
+export const products: Product[] = [
+  {
+    id: 1,
+    name: "Produto A",
+    color: "red",
+    width: 80,
+    height: 60,
+  },
+  {
+    id: 2,
+    name: "Produto B",
+    color: "blue",
+    width: 100,
+    height: 80,
+  },
+  {
+    id: 3,
+    name: "Produto C",
+    color: "green",
+    width: 120,
+    height: 100,
+  },
+  {
+    id: 4,
+    name: "Produto D",
+    color: "yellow",
+    width: 80,
+    height: 120,
+  },
+];
 
 export const ListProducts = ({
   products,
