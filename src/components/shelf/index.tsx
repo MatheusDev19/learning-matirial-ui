@@ -24,14 +24,16 @@ export const Shelf = ({
     >
       {stack.map((box, shelfIndex) => (
         <Stack
+          overflow="hidden"
           key={shelfIndex}
           spacing={spacing}
           direction={"row"}
           height={height}
           alignItems={"flex-end"}
-          sx={{ 
+          sx={{
             // border: "1px solid pink",
-             width: "100%" }}
+            width: "100%",
+          }}
           onClick={() => onStackClick(shelfIndex)}
         >
           {box.map((b, boxIndex) => (
