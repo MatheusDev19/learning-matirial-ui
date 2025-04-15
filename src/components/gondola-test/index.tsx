@@ -25,15 +25,15 @@ export function GondolaTest() {
   useEffect(() => {
     setShelfs([
       {
-        boxes: [[{ bgcolor: "#000", height: "50px", width: "100px" }],[{ bgcolor: "#000", height: "50px", width: "100px" },{ bgcolor: "#000", height: "50px", width: "100px" }  ],[],[],[],[],[],[],[],[],[],[],[],[],[],[]],
+        boxes: [[], [], [], []],
         align: "flex-start",
       },
       {
-        boxes: [[]],
+        boxes: [[], [], [], []],
         align: "center",
       },
       {
-        boxes: [[]],
+        boxes: [[], [], [], []],
         align: "flex-end",
       },
     ]);
